@@ -31,7 +31,7 @@ const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY || "Your polygonscan
 const REPORT_GAS = process.env.REPORT_GAS || false
 
 module.exports = {
-    defaultNetwork: "hardhat",
+    defaultNetwork: "goerli",
     networks: {
         hardhat: {
             // // If you want to do some forking, uncomment this
@@ -68,7 +68,7 @@ module.exports = {
             //     mnemonic: MNEMONIC,
             //   },
             saveDeployments: true,
-            chainId: 4,
+            chainId: 5,
         },
         mainnet: {
             url: MAINNET_RPC_URL,

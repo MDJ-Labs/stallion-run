@@ -51,23 +51,22 @@ contract StallionRace is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     VRFCoordinatorV2Interface private immutable i_COORDINATOR;
     // Your subscription ID.
-    uint64 s_subscriptionId;
+    uint64 private immutable i_subscriptionId;
     // Goerli coordinator. For other networks,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
-    address vrfCoordinator = 0x2Ca8E0C643bDe4C2E08ab1fA0da3401AdAD7734D;
     // The gas lane to use, which specifies the maximum gas price to bump to.
     // For a list of available gas lanes on each network,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
-    bytes32 keyHash = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15;
+    bytes32 private immutable i_keyHash;
     // Depends on the number of requested values that you want sent to the
     // fulfillRandomWords() function. Storing each word costs about 20,000 gas,
     // so 100,000 is a safe default for this example contract. Test and adjust
     // this limit based on the network that you select, the size of the request,
     // and the processing of the callback request in the fulfillRandomWords()
     // function.
-    uint32 callbackGasLimit = 1000000;
+    uint32 private immutable i_callbackGasLimit;
     // The default is 3, but you can set this higher.
-    uint16 requestConfirmations = 3;
+    uint16 private constant REQUEST_CONFIRMATIONS = 3;
     // For this example, retrieve 2 random values in one request.
     // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
     uint32 private numWords;
@@ -86,10 +85,16 @@ contract StallionRace is VRFConsumerBaseV2, KeeperCompatibleInterface {
     /// @notice Constructor takes an entrance fee and Chainlink Subscription ID as arguments
     /// @notice The Race state is set to OPEN in the constructor
     constructor(
-        uint256 entranceFee, uint64 subscriptionId
+        uint256 entranceFee, 
+        uint64 subscriptionId,
+        address vrfCoordinator,
+        bytes32 keyHash,
+        uint32 callbackGasLimit
     ) VRFConsumerBaseV2(vrfCoordinator) {
         i_COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
-        s_subscriptionId = subscriptionId;
+        i_subscriptionId = subscriptionId;
+        i_keyHash = keyHash;
+        i_callbackGasLimit = callbackGasLimit;
         i_entranceFee = entranceFee;
         s_raceState = RaceState.OPEN;
 
@@ -162,10 +167,10 @@ contract StallionRace is VRFConsumerBaseV2, KeeperCompatibleInterface {
         numWords = uint32(s_players.length);
 
         uint256 requestId = i_COORDINATOR.requestRandomWords(
-        keyHash,
-        s_subscriptionId,
-        requestConfirmations,
-        callbackGasLimit,
+        i_keyHash,
+        i_subscriptionId,
+        REQUEST_CONFIRMATIONS,
+        i_callbackGasLimit,
         numWords
         );
 
