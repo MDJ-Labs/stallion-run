@@ -1,0 +1,20 @@
+{
+  "name": "stallion-run",
+  "version": "1.0.0",
+  "description": "A decentralized Horse Racing Game built on Ethereum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ethereum",
+    "solidity",
+    "hardhat",
+    "nextjs"
+  ],
+  "author": "Umair Mirza, John Nguyen, Marvellous",
+  "license": "ISC",
+  "devDependencies": {
+    "hardhat": "^2.10.2"
+  }
+}
