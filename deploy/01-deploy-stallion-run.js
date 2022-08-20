@@ -34,10 +34,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     log("----------------------------------------------------")
     const arguments = [
-        vrfCoordinatorV2Address,
-        subscriptionId,
-        networkConfig[chainId]["keyHash"],
         networkConfig[chainId]["entranceFee"],
+        subscriptionId,
+        vrfCoordinatorV2Address,
+        networkConfig[chainId]["keyHash"],
         networkConfig[chainId]["callbackGasLimit"],
     ]
     const stallionRun = await deploy("StallionRun", {

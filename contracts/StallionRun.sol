@@ -11,7 +11,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
 /// @notice This contract is for creating a decentralized horse racing game
 /// @dev This contract implements Chainlink VRF and Chainlink Keepers
 
-contract StallionRace is VRFConsumerBaseV2, KeeperCompatibleInterface {
+contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     /* Events */
     event RaceEnter(address indexed player);
