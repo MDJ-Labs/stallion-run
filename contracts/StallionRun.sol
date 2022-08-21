@@ -15,9 +15,9 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     /* Events */
     event RaceEnter(address indexed player);
-    event WinnerPicked(address indexed player);
     event HorseCreated(uint16 horseId, uint256 price, uint8 level, string name);
     event RequestedRaceWinner(uint256 indexed requestId);
+    event RaceCompleted(uint256 indexed raceId, address indexed winner, uint32 winnerSpeed, uint256 raceTime);
 
     /* Type Declarations */
     enum RaceState {
@@ -38,10 +38,12 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
     address payable[] private s_players;
     uint256 private immutable i_entranceFee;
     uint16 public s_horseId;
+    uint256 public s_raceId;
     uint32 private s_speedOfWinner;
     uint256 public s_raceAmount;
     RaceState private s_raceState;
     uint256[] public s_finalRamdom;
+    uint256 public s_raceTime;
 
     Horse[] public horses;
 
@@ -226,7 +228,12 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
         s_recentWinner = winner;
         s_speedOfWinner = winnerSpeed;
 
+        s_raceId = s_raceId + 1;
+
+        s_raceTime = block.timestamp;
+
         s_players = new address payable[](0);
+        s_finalRamdom = new uint256[](0);
 
         s_raceState = RaceState.OPEN;
 
@@ -238,7 +245,7 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
             revert("Transaction failed");
         }
 
-        emit WinnerPicked(winner);
+        emit RaceCompleted(s_raceId, winner, winnerSpeed, s_raceTime);
     }
 
     /* Getters */
