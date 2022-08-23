@@ -103,6 +103,7 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         _setTokenURI(tokenId, _tokenURI);
         _counter++;
         _levels[level].supply += 1;
+        horseLeveLOwned[msg.sender] = level;
     }
 
     function withdraw() external onlyOwner {
