@@ -26,11 +26,12 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     mapping(uint256 => Attributes) private _levels;
+    mapping(address => uint256) private horseLeveLOwned;
 
     constructor() ERC721("StallionRun", "SRN") {
-        _MINT_PRICES[0] = Attributes(0.1 ether, 0);
-        _MINT_PRICES[1] = Attributes(0.2 ether, 0);
-        _MINT_PRICES[2] = Attributes(0.3 ether, 0);
+        _levels[0] = Attributes(0.1 ether, 0);
+        _levels[1] = Attributes(0.2 ether, 0);
+        _levels[2] = Attributes(0.3 ether, 0);
     }
 
     /**
@@ -84,22 +85,24 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     function mint(Level _level) public payable {
+        require(balanceOf(msg.sender) < 1, "only 1 NFT per address");
         require(_counter < _TOTAL_MAX_SUPPLY, "Total supply exceeded");
-        require(
-            msg.value != _levels[uint8(_level)].mintprice,
-            "mint price is not met"
-        );
+
+        uint256 level = uint8(_level);
+
         require(
             _levels[uint8(_level)].supply <= _LEVEL_MAX_SUPPLY,
             "level max supply reached"
         );
+        require(msg.value != _levels[level].mintprice, "mint price is not met");
+
         uint256 tokenId = _counter++;
-        string memory _tokenURI = tokenURI(tokenId);
+        string memory _tokenURI = tokenURI(level);
 
         _mint(msg.sender, tokenId);
         _setTokenURI(tokenId, _tokenURI);
         _counter++;
-        _levels[uint8(_level)].supply += 1;
+        _levels[level].supply += 1;
     }
 
     function withdraw() external onlyOwner {
