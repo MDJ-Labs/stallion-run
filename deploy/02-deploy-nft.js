@@ -11,7 +11,7 @@ const deployment = async (hre) => {
 
   const NFT = await deploy("StallionNFT", {
     from: deployer,
-    args: [deployer],
+    args: [],
     log: true,
   });
 

@@ -5,7 +5,7 @@ const networkConfig = {
     31337: {
         name: "localhost",
         subscriptionId: "588",
-        gasLane: "0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15", // 30 gwei
+        keyHash: "0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15", // 30 gwei
         entranceFee: "1000000000000000", // 0.001 ETH
         callbackGasLimit: "1000000", // 10,00000 gas
     },
