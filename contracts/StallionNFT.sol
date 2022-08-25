@@ -144,4 +144,18 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
             return 'none';
         }
     }
+
+    function bulletSupply() external view returns(uint256){
+        return _levels[0].supply;
+
+    }
+
+    function hopeSupply() external view returns(uint256){
+        return _levels[1].supply;
+    }
+
+    function flashSupply() external view returns(uint256){
+        return _levels[2].supply;
+    }
+
 }
