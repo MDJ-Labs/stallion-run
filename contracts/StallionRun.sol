@@ -6,13 +6,14 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
+import "./StallionNFT.sol";
 
 /// @title A Decentralized Horse Racing Game
 /// @author Umair Mirza, John Nguyen
 /// @notice This contract is for creating a decentralized horse racing game
 /// @dev This contract implements Chainlink VRF and Chainlink Keepers
 
-contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
+contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface, StallionNFT {
 
     /* Events */
     event RaceEnter(address indexed player);
@@ -26,19 +27,19 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
         INPROGRESS
     }
 
-    struct Horse {
-        uint16 horseId;
-        uint256 price;
-        uint8 level;
-        string name;
-    }
+    // struct Horse {
+    //     uint16 horseId;
+    //     uint256 price;
+    //     uint8 level;
+    //     string name;
+    // }
 
     /* State variables */
     address public s_owner;
     address private s_recentWinner;
     address payable[] private s_players;
     uint256 private immutable i_entranceFee;
-    uint16 public s_horseId;
+    // uint16 public s_horseId;
     uint256 public s_raceId;
     uint32 private s_speedOfWinner;
     uint256 public s_raceAmount;
@@ -46,9 +47,9 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
     uint256[] public s_finalRamdom;
     uint256 public s_raceTime;
 
-    Horse[] public horses;
+    // Horse[] public horses;
 
-    mapping (address => Horse) playerToHorse;
+    // mapping (address => Horse) playerToHorse;
 
     /* Chainlink variables */
 
@@ -78,10 +79,10 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
 
     /* Modifiers */
-    modifier onlyOwner {
-        require(msg.sender == s_owner, "Function caller is not Owner of the contract");
-        _;
-    }
+    // modifier onlyOwner override {
+    //     require(msg.sender == s_owner, "Function caller is not Owner of the contract");
+    //     _;
+    // }
 
     /* Functions */
 
@@ -93,7 +94,7 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
         address vrfCoordinator,
         bytes32 keyHash,
         uint32 callbackGasLimit
-    ) VRFConsumerBaseV2(vrfCoordinator) {
+    ) VRFConsumerBaseV2(vrfCoordinator) StallionNFT() {
         i_COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
         i_subscriptionId = subscriptionId;
         i_keyHash = keyHash;
@@ -109,30 +110,30 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
     /// @notice A horse can be of a different level and higher levels offer a slightly better chance of winning the race
     /// @dev There are two types of horseId variables, one in storage, other in the struct
     /// @dev Storage horseId variable is used to create unique ids for each horse incremented by 1
-    function createHorse(string memory _name, uint8 _level, uint256 _price) public onlyOwner {
-        s_horseId = s_horseId + 1;
-        horses.push(Horse(s_horseId, _price, _level, _name));
+    // function createHorse(string memory _name, uint8 _level, uint256 _price) public onlyOwner {
+    //     s_horseId = s_horseId + 1;
+    //     horses.push(Horse(s_horseId, _price, _level, _name));
 
-        emit HorseCreated(s_horseId, _price, _level, _name);
-    }
+    //     emit HorseCreated(s_horseId, _price, _level, _name);
+    // }
 
     /// @notice Players can buy horse at the price set by the owner of the contract
     /// @notice Each player can own only one horse and cannot change their horse afterwards
     /// @dev After successful purchase, it assigns the horse to the playerToHorse mapping
-    function buyHorse(uint32 _id) external payable {
-        require(horses.length > 0, "No horses exist currently");
-        if(playerToHorse[msg.sender].horseId != 0) {
-            revert("Player already owns a horse");
-        }
-        require(msg.value >= horses[_id].price, "Amount is less than Horse Price");
+    // function buyHorse(uint32 _id) external payable {
+    //     require(horses.length > 0, "No horses exist currently");
+    //     if(playerToHorse[msg.sender].horseId != 0) {
+    //         revert("Player already owns a horse");
+    //     }
+    //     require(msg.value >= horses[_id].price, "Amount is less than Horse Price");
 
-        playerToHorse[msg.sender] = horses[_id];
-    }
+    //     playerToHorse[msg.sender] = horses[_id];
+    // }
 
     /// @notice A player can enter the race by paying the entry fee set in the constructor
     /// @notice A player can only enter the race if he / she owns a horse
     function enterRace() public payable {
-        require(playerToHorse[msg.sender].horseId > 0, "Player does not own any horse");
+        require(horseBalance(msg.sender) > 0, "Player does not own any horse");
         require(msg.value >= i_entranceFee, "Amount is less than Entrance Fee");
         require(s_raceState == RaceState.OPEN, "Race is not Open");
 
@@ -150,7 +151,7 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
     public view override returns(bool upkeepNeeded, bytes memory /* performData */) {
 
         bool isOpen = s_raceState == RaceState.OPEN;
-        bool enoughPlayers = s_players.length == 2;
+        bool enoughPlayers = s_players.length == 3;
         bool hasBalance = address(this).balance > 0;
 
         upkeepNeeded = (isOpen && enoughPlayers && hasBalance);
@@ -215,7 +216,7 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
             uint32 randomGen = 50 + uint32(s_randomWords[i] % (99 - 50 + 1));
             s_finalRamdom.push(randomGen);
-            uint32 playerSpeed = randomGen + (playerToHorse[playerAddress].level * speedIncrement);
+            uint32 playerSpeed = randomGen + (uint32(ownedHorseLevel(playerAddress)) * speedIncrement);
 
             if(playerSpeed > maxSpeed) {
                 maxSpeed = playerSpeed;
@@ -259,10 +260,6 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     function getRaceState() public view returns(RaceState) {
         return s_raceState;
-    }
-
-    function getPlayerHorse(address _player) public view returns(string memory) {
-        return playerToHorse[_player].name;
     }
 
     function getNumPlayers() public view returns(uint) {

@@ -101,7 +101,7 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
             _levels[level].supply <= _LEVEL_MAX_SUPPLY,
             "level max supply reached"
         );
-        require(msg.value != _levels[level].mintprice, "mint price is not met");
+        require(msg.value == _levels[level].mintprice, "mint price is not met");
 
         uint256 tokenId = ++_counter;
         _mint(msg.sender, tokenId);
@@ -113,7 +113,7 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     function burn(uint256 tokenId) external {
-        require(ownerOf(tokenId) == msg.sender, "Sender not owner of NFT");
+        require(ownerOf(tokenId) == msg.sender, "Sender not the owner of NFT");
         _burn(tokenId);
     }
 
@@ -122,5 +122,26 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         require(balance > 0, "No balance to withdraw");
         (bool success, ) = owner().call{value: balance}("");
         require(success, "withdrawal failed");
+    }
+
+    /* Getters */
+
+    /// @notice These are getter functions that can be used to gewt values of different state veriables
+
+    function horseBalance(address _address) public view returns (uint256) {
+        return balanceOf(_address);
+    }
+
+    function ownedHorseLevel(address _address) public view returns(uint256) {
+        return horseLevelOwned[_address];
+    }
+
+    function ownedHorseName(address _address) public view returns(string memory) {
+        if(balanceOf(_address) > 0) {
+            uint256 levelOfHorse = horseLevelOwned[_address];
+            return _levels[levelOfHorse].name;
+        } else {
+            return 'none';
+        }
     }
 }
