@@ -27,29 +27,17 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface, StallionNF
         INPROGRESS
     }
 
-    // struct Horse {
-    //     uint16 horseId;
-    //     uint256 price;
-    //     uint8 level;
-    //     string name;
-    // }
-
     /* State variables */
     address public s_owner;
     address private s_recentWinner;
     address payable[] private s_players;
     uint256 private immutable i_entranceFee;
-    // uint16 public s_horseId;
     uint256 public s_raceId;
     uint32 private s_speedOfWinner;
     uint256 public s_raceAmount;
     RaceState private s_raceState;
     uint256[] public s_finalRamdom;
     uint256 public s_raceTime;
-
-    // Horse[] public horses;
-
-    // mapping (address => Horse) playerToHorse;
 
     /* Chainlink variables */
 
@@ -104,31 +92,6 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface, StallionNF
 
         s_owner = msg.sender;
     }
-
-    /// @notice This creates a new horse that can be purchased later
-    /// @notice Only owner of the contract is able to create a horse
-    /// @notice A horse can be of a different level and higher levels offer a slightly better chance of winning the race
-    /// @dev There are two types of horseId variables, one in storage, other in the struct
-    /// @dev Storage horseId variable is used to create unique ids for each horse incremented by 1
-    // function createHorse(string memory _name, uint8 _level, uint256 _price) public onlyOwner {
-    //     s_horseId = s_horseId + 1;
-    //     horses.push(Horse(s_horseId, _price, _level, _name));
-
-    //     emit HorseCreated(s_horseId, _price, _level, _name);
-    // }
-
-    /// @notice Players can buy horse at the price set by the owner of the contract
-    /// @notice Each player can own only one horse and cannot change their horse afterwards
-    /// @dev After successful purchase, it assigns the horse to the playerToHorse mapping
-    // function buyHorse(uint32 _id) external payable {
-    //     require(horses.length > 0, "No horses exist currently");
-    //     if(playerToHorse[msg.sender].horseId != 0) {
-    //         revert("Player already owns a horse");
-    //     }
-    //     require(msg.value >= horses[_id].price, "Amount is less than Horse Price");
-
-    //     playerToHorse[msg.sender] = horses[_id];
-    // }
 
     /// @notice A player can enter the race by paying the entry fee set in the constructor
     /// @notice A player can only enter the race if he / she owns a horse
