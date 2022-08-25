@@ -28,7 +28,7 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     mapping(uint256 => Attributes) private _levels;
-    mapping(address => uint256) private horseLevelOwned;
+    mapping(address => uint256) public horseLevelOwned;
 
     constructor() ERC721("StallionRun", "SRN") {
         _levels[0] = Attributes(0.001 ether, 0, "Bullet", "1");
@@ -113,6 +113,7 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     function burn(uint256 tokenId) external {
+        require(ownerOf(tokenId) == msg.sender);
         _burn(tokenId);
     }
 
