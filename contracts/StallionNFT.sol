@@ -113,7 +113,7 @@ contract StallionNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 
     function burn(uint256 tokenId) external {
-        require(ownerOf(tokenId) == msg.sender);
+        require(ownerOf(tokenId) == msg.sender, "Sender not owner of NFT");
         _burn(tokenId);
     }
 
