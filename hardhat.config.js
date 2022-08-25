@@ -39,61 +39,61 @@ const POLYGONSCAN_API_KEY =
 const REPORT_GAS = process.env.REPORT_GAS || false;
 
 module.exports = {
-    defaultNetwork: "goerli",
-    networks: {
-        hardhat: {
-            // // If you want to do some forking, uncomment this
-            // forking: {
-            //   url: MAINNET_RPC_URL
-            // }
-            chainId: 31337,
-        },
-        localhost: {
-            chainId: 31337,
-        },
-        kovan: {
-            url: KOVAN_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            //accounts: {
-            //     mnemonic: MNEMONIC,
-            // },
-            saveDeployments: true,
-            chainId: 42,
-        },
-        rinkeby: {
-            url: RINKEBY_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            //   accounts: {
-            //     mnemonic: MNEMONIC,
-            //   },
-            saveDeployments: true,
-            chainId: 4,
-        },
-        goerli: {
-            url: GOERLI_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            //   accounts: {
-            //     mnemonic: MNEMONIC,
-            //   },
-            saveDeployments: true,
-            chainId: 5,
-        },
-        mainnet: {
-            url: MAINNET_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            //   accounts: {
-            //     mnemonic: MNEMONIC,
-            //   },
-            saveDeployments: true,
-            chainId: 1,
-        },
-        polygon: {
-            url: POLYGON_MAINNET_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            saveDeployments: true,
-            chainId: 137,
-        },
+  defaultNetwork: "goerli",
+  networks: {
+    hardhat: {
+      // // If you want to do some forking, uncomment this
+      // forking: {
+      //   url: MAINNET_RPC_URL
+      // }
+      chainId: 31337,
     },
+    localhost: {
+      chainId: 31337,
+    },
+    kovan: {
+      url: KOVAN_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //accounts: {
+      //     mnemonic: MNEMONIC,
+      // },
+      saveDeployments: true,
+      chainId: 42,
+    },
+    rinkeby: {
+      url: RINKEBY_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //   accounts: {
+      //     mnemonic: MNEMONIC,
+      //   },
+      saveDeployments: true,
+      chainId: 4,
+    },
+    goerli: {
+      url: GOERLI_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //   accounts: {
+      //     mnemonic: MNEMONIC,
+      //   },
+      saveDeployments: true,
+      chainId: 5,
+    },
+    mainnet: {
+      url: MAINNET_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //   accounts: {
+      //     mnemonic: MNEMONIC,
+      //   },
+      saveDeployments: true,
+      chainId: 1,
+    },
+    polygon: {
+      url: POLYGON_MAINNET_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      saveDeployments: true,
+      chainId: 137,
+    },
+  },
   etherscan: {
     // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
     apiKey: {
