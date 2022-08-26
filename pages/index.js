@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { ethers } from "ethers";
 
 const contractAddress = "0xeb3ac2678Add1461e126235D257AC6caB2a00335";
-
 const abi = [
   {
     inputs: [
@@ -58,6 +56,7 @@ export default function Home() {
       });
     };
     setInstall(!window.ethereum);
+    setAccount(window.ethereum.selectedAddress);
     getNetwork();
     window.ethereum.on("accountsChanged", () => {
       setAccount(window.ethereum.selectedAddress);
@@ -154,7 +153,6 @@ export default function Home() {
         <button onClick={() => mintBullet()}>Mint Bullet</button>
         <button onClick={() => mintHope()}>Mint Hope</button>
         <button onClick={() => mintFlash()}>Mint Flash</button>
-        <button onClick={() => nftsMinted()}>Update supply</button>
       </div>
     </div>
   );
