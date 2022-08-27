@@ -1,4 +1,3 @@
-import {useWeb3Contract} from 'react-moralis'
 import styles from "../styles/Mint.module.css"
 import {abi, contractAddresses} from '../constants'
 import {useMoralis} from 'react-moralis'
@@ -17,10 +16,10 @@ const Mint = () => {
 
 
     useEffect(() => {
-        if(isWeb3Enabled) {
+        if(isWeb3Enabled && stallionRunAddress) {
             nftsMinted();
         }
-    }, [isWeb3Enabled])
+    }, [isWeb3Enabled, mintedBullets, mintedHopes, mintedFlashes])
     
 
     const mintBullet = async () => {
@@ -81,7 +80,7 @@ const Mint = () => {
 
   return (
     <div className="">
-      <div className="mx-auto max-w-7xl bg-white px-4 mt-24 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl bg-white px-4 mt-10 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-extrabold text-black sm:text-5xl sm:leading-tight sm:tracking-tight">
           Mint your NFT Horse
         </h1>
@@ -90,7 +89,7 @@ const Mint = () => {
         </p>
       </div>
       {stallionRunAddress ? (
-            <div className="mx-auto max-w-7xl grid grid-cols-3 gap-8 py-24 px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl grid grid-cols-3 gap-8 py-16 px-4 sm:px-6 lg:px-8">
             <div className={styles.card}>
               <p className={styles.cardMinted}>{mintedBullets}/3000</p>
               <h1 className={styles.cardTitle}>Bullet</h1>
@@ -141,7 +140,7 @@ const Mint = () => {
             </div>
           </div>
       ) : (
-        <div className="container mx-auto">Please connect to a supported chain</div>
+        <div className="bg-red-200 font-semibold text-2xl absolute bottom-5 left-1/5 md:left-1/3">Please connect to a supported chain</div>
       )}
       
     </div>
