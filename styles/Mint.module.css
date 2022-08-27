@@ -1,0 +1,27 @@
+.card {
+    @apply border border-slate-200 p-8 shadow-lg bg-white rounded-2xl relative;
+  }
+  
+  .cardTitle {
+    @apply text-center font-bold text-xl leading-5;
+  }
+  
+  .cardDesc {
+    @apply mt-2 text-center text-sm text-slate-700 leading-6;
+  }
+  
+  .cardMinted {
+    @apply absolute top-0 -translate-y-1/2 rounded-full bg-red-400 px-3 py-0.5 text-sm font-semibold tracking-wide text-white shadow-md;
+  }
+  
+  .cardPriceCont {
+    @apply -mx-6 mt-4 rounded-lg bg-slate-50 p-6;
+  }
+  
+  .cardPrice {
+    @apply flex text-sm font-semibold text-slate-600 items-center;
+  }
+  
+  .cardMint {
+    @apply mt-8 block rounded-lg bg-red-400 px-6 py-4 mx-auto text-sm font-semibold leading-4 text-white shadow-md;
+  }
