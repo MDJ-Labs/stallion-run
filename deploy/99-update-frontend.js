@@ -1,6 +1,6 @@
 const { frontEndContractsFile, frontEndAbiFile } = require("../helper-hardhat-config")
 const fs = require("fs")
-const { ethers } = require("hardhat")
+const { ethers, network } = require("hardhat")
 
 module.exports = async () => {
     if (process.env.UPDATE_FRONT_END) {
@@ -13,7 +13,7 @@ module.exports = async () => {
 
 async function updateAbi() {
     const stallionRun = await ethers.getContract("StallionRun")
-    fs.writeFileSync(frontEndAbiFile, stallionRun.interface.format(ethers.utils.FormatTypes.json))
+    fs.writeFileSync(frontEndAbiFile, stallionRun.interface.format(ethers.utils.FormatTypes.json)) //ethers has a contract.interface
 }
 
 async function updateContractAddresses() {
