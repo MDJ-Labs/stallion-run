@@ -6,7 +6,6 @@ import {ethers} from 'ethers'
 const RaceComponent = () => {
 
     const [inProgress, setInProgress] = useState(0)
-    const [playerIndex, setPlayerIndex] = useState(0)
     const [players, setPlayers] = useState([])
     const [playersEntered, setPlayersEntered] = useState(0)
     const [winner, setWinner] = useState("")
@@ -21,10 +20,20 @@ const RaceComponent = () => {
     useEffect(() => {
         if(isWeb3Enabled && stallionRunAddress) {
         updatePlayersNumber()
-        updatePlayer()
-        executeRace()
         }
-    }, [isWeb3Enabled, playersEntered, playerIndex, players, inProgress, winner])
+    }, [isWeb3Enabled, playersEntered])
+
+    useEffect(() => {
+        if(playersEntered > 0) {
+            updatePlayer()
+        }  
+    }, [playersEntered])
+
+    useEffect(() => {
+        if(inProgress == 1) {
+            executeRace()
+        }
+    }, [inProgress])
 
     const enterRace = async () => {
         try {
@@ -32,7 +41,7 @@ const RaceComponent = () => {
             const signer = provider.getSigner();
             const contract = new ethers.Contract(stallionRunAddress, abi, signer);
             await contract.enterRace({value: ethers.utils.parseEther("0.001")})
-            setPlayerIndex(playerIndex + 1)
+            updatePlayersNumber()
         } catch(error) {
             console.log(error)
         }
@@ -49,22 +58,47 @@ const RaceComponent = () => {
     const updatePlayer = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const contract = new ethers.Contract(stallionRunAddress, abi, provider)
-        const newPlayer = await contract.getPlayerAddress(playerIndex)
+        const playerIndex = playersEntered - 1
+        const newIndex = playerIndex.toString()
+
+        const newPlayer = await contract.getPlayerAddress(newIndex)
         const newPlayerLevelBI = await contract.ownedHorseLevel(newPlayer)
         const newPlayerLevel = parseInt(newPlayerLevelBI)
         const newPlayerHorseArr = await contract.ownedHorseName(newPlayer)
-        const newPlayerHorse = newPlayerHorseArr[0].toString()
-        setPlayers(...players, {address: newPlayer, level: newPlayerLevel, horse: newPlayerHorse})
+        const newPlayerHorse = newPlayerHorseArr.toString()
+        const newPlayerObject = {address: newPlayer, level: newPlayerLevel, horse: newPlayerHorse}
+        // setPlayers([...players, newPlayerObject])
+        setPlayers(prev => [...prev, newPlayerObject])
+
+        if(playersEntered === 3) {
+            const progressBI = await contract.getRaceState()
+            const progress = parseInt(progressBI)
+            setInProgress(progress)
+            console.log(inProgress)
+
+            executeRace()
+        }
     }
 
     const executeRace = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const contract = new ethers.Contract(stallionRunAddress, abi, provider)
-        const progressBI = await contract.getRaceState()
-        const progress = parseInt(progressBI)
-        setInProgress(progress)
-        const winner = await contract.getRecentWinner()[0]
-        setWinner(winner)
+        const winner = await contract.getRecentWinner()
+        const {0: variable_1, 1: variable_2} = winner;
+        const newWinner = variable_1.toString()
+
+        if(winner && newWinner !== "0x0000000000000000000000000000000000000000") {
+            setWinner(newWinner)
+
+            setTimeout(() => {
+                setInProgress(0)
+                setPlayers([])
+                setPlayersEntered(0)
+                setWinner("")
+              }, "300000")
+              
+        }
+
 
     }
 
@@ -96,7 +130,9 @@ const RaceComponent = () => {
             <div className="text-center">
                 <div className="bg-lime-200 border-4 border-green-600 px-4 py-4 rounded-xl text-xl sm:text-2xl lg:text-3xl shadow-lg shadow-lime-800"><span className="mx-6">Winner:</span> <span className="mx-6">{winner}</span></div>
             </div>
-        ) : (null)}
+        ) : (
+            playersEntered === 3 ? (<div className="text-center">Calculating Winner...</div>) : (null)
+        )}
 
     </div>
     
