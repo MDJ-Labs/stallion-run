@@ -42,10 +42,10 @@ Clone repository:
   cd stallion-run
 ```
 
-Navigate to new-frontend1 branch:
+Navigate to 'new-frontend' branch:
 
 ```bash
-  git checkout new-frontend1
+  git checkout new-frontend
 ```
 
 Install dependencies: 
