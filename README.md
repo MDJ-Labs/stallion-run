@@ -1,16 +1,12 @@
-
 # Stallion Run
 
 Decentralized play-to-earn Horse Racing game with custom Stallion Horse NFTs and fairly implemented race mechanics. 
 
- 
 ## Authors
 
 - [Umair Mirza - @umair-mirza](https://github.com/umair-mirza)
 - [Marvellous - @literallymarvellous](https://github.com/literallymarvellous)
 - [John Nguyen - @jooohneth](https://github.com/jooohneth)
-
-
 
 ## Description
 
@@ -36,28 +32,54 @@ Players purchase a Stallion Horse NFT to participate in races. Race results are 
 
 ## Installation
 
-Clone repository: 
+### Clone repository: 
 
 ```bash
   git clone https://github.com/MDJ-Labs/stallion-run
   cd stallion-run
 ```
 
-Navigate to 'new-frontend' branch:
-
-```bash
-  git checkout new-frontend
-```
-
-Install dependencies: 
+### Install dependencies: 
 
 ```bash
   npm install
 ```
 
-Run app in development mode: 
+## Deployment
+
+### Compile:
+
+```bash
+  npx hardhat compile
+```
+
+### Deploy contract to Goerli Network:
+
+```bash
+  npx hardhat deploy --network goerli
+```
+
+### Deploy contract to hardhat local network:
+
+```bash 
+  npx hardhat node
+```
+
+- change 'defaultNetwork' to 'hardhat' in hardhat.config.js file
+
+```bash
+  npx hardhat deploy
+```
+## Run Web App
+
+### Navigate to 'new-frontend' branch:
+
+```bash
+  git checkout new-frontend
+```
+
+### Run app in development mode: 
 
 ```bash
   npm run dev 
 ```
-    
