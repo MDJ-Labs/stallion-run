@@ -1,0 +1,11 @@
+{
+  "description": "Stallion NFT horse",
+  "external_url": "https://example.com/?token_id=1",
+  "image": "https://bafybeigpctkmxbtszsek3hbv6jzezickjrcf74pnc3i5zrhcj24t5yxnby.ipfs.dweb.link/images/1.png",
+  "name": "Bullet",
+  "attributes": {
+    "speed": 50,
+    "color": "gold",
+    "level": 1
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
+  "external_url": "https://example.com/?token_id=1",
+  "image": "https://bafybeigpctkmxbtszsek3hbv6jzezickjrcf74pnc3i5zrhcj24t5yxnby.ipfs.dweb.link/images/1.png",
+  "name": "Rifle",
+  "attributes": {
+    "speed": 50,
+    "color": "brown",
+    "level": 2
+  }
+}
