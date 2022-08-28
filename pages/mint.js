@@ -3,6 +3,7 @@ import { abi, contractAddresses } from "../constants";
 import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import Image from "next/image";
 
 const Mint = () => {
   const [mintedBullets, setMintedBullets] = useState(0);
@@ -77,7 +78,7 @@ const Mint = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <div className="mx-auto max-w-7xl bg-white px-4 mt-24 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-extrabold text-black sm:text-5xl sm:leading-tight sm:tracking-tight">
           Mint your NFT Horse
@@ -95,10 +96,15 @@ const Mint = () => {
               Bullet is a horse with average speed. Speed increment: 3.
             </p>
             <div className={styles.cardPriceCont}>
-              <p className={styles.cardPrice}>
-                <span>{0.001}</span>
-                <span> ETH</span>
-              </p>
+              <span>{0.001} ETH</span>
+            </div>
+            <div className="mt-5">
+              <Image
+                src="/images/Bullet.jpeg"
+                alt="Bullet Image"
+                width={280}
+                height={230}
+              ></Image>
             </div>
             <button className={styles.cardMint} onClick={() => mintBullet()}>
               Mint Bullet
@@ -111,10 +117,15 @@ const Mint = () => {
               Hope is a horse with fast speed. Speed increment: 6.
             </p>
             <div className={styles.cardPriceCont}>
-              <p className={styles.cardPrice}>
-                <span>{0.002}</span>
-                <span> ETH</span>
-              </p>
+              <span>{0.002} ETH</span>
+            </div>
+            <div className="mt-5">
+              <Image
+                src="/images/Hope.jpeg"
+                alt="Hope Image"
+                width={280}
+                height={230}
+              ></Image>
             </div>
             <button className={styles.cardMint} onClick={() => mintHope()}>
               Mint Hope
@@ -127,10 +138,15 @@ const Mint = () => {
               Bullet is a horse with insane speed. Speed Increment: 9.
             </p>
             <div className={styles.cardPriceCont}>
-              <p className={styles.cardPrice}>
-                <span>{0.003}</span>
-                <span> ETH</span>
-              </p>
+              <span>{0.003} ETH</span>
+            </div>
+            <div className="mt-5">
+              <Image
+                src="/images/Flash.jpeg"
+                alt="Flash Image"
+                width={280}
+                height={230}
+              ></Image>
             </div>
             <button className={styles.cardMint} onClick={() => mintFlash()}>
               Mint Flash
