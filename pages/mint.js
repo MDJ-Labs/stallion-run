@@ -21,7 +21,7 @@ const Mint = () => {
       nftsMinted();
       getHorse();
     }
-  }, [isWeb3Enabled, mintedBullets, mintedHopes, mintedFlashes]);
+  }, [isWeb3Enabled, mintedBullets, mintedHopes, mintedFlashes, horse]);
 
   const mintBullet = async () => {
     try {
