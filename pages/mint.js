@@ -17,11 +17,11 @@ const Mint = () => {
     chainId in contractAddresses ? contractAddresses[chainId][0] : null;
 
   useEffect(() => {
-    if (isWeb3Enabled) {
+    if (isWeb3Enabled && stallionRunAddress) {
       nftsMinted();
       getHorse();
     }
-  }, [isWeb3Enabled]);
+  }, [isWeb3Enabled, mintedBullets, mintedHopes, mintedFlashes]);
 
   const mintBullet = async () => {
     try {
@@ -92,8 +92,8 @@ const Mint = () => {
   };
 
   return (
-    <div>
-      <div className="mx-auto max-w-7xl bg-white px-4 mt-24 sm:px-6 lg:px-8">
+    <div className="">
+      <div className="mx-auto max-w-7xl bg-white px-4 mt-10 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-extrabold text-black sm:text-5xl sm:leading-tight sm:tracking-tight">
           Mint your NFT Horse
         </h1>
@@ -173,7 +173,7 @@ const Mint = () => {
           </div>
         </div>
       ) : (
-        <div className="container mx-auto">
+        <div className="bg-red-200 font-semibold text-2xl absolute bottom-5 left-1/5 md:left-1/3">
           Please connect to a supported chain
         </div>
       )}

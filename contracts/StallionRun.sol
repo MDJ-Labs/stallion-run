@@ -229,7 +229,7 @@ contract StallionRun is VRFConsumerBaseV2, KeeperCompatibleInterface, StallionNF
         return s_players.length;
     }
 
-    function getPlayerAddress(uint16 index) public view returns(address) {
+    function getPlayerAddress(uint256 index) public view returns(address) {
         return s_players[index];
     }
 

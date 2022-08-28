@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Header from "../components/Header"
 import { useMoralis } from "react-moralis"
+import RaceComponent from "../components/RaceComponent";
 
 const supportedChains = ["31337", "5"];
 
@@ -19,8 +20,8 @@ function Home() {
       {isWeb3Enabled ? (
         <div>
           {supportedChains.includes(parseInt(chainId).toString()) ? (
-            <div className="flex flex-row">
-            {/* <RaceComponent /> */}
+            <div className="">
+              <RaceComponent />
             </div>
           ) : (
             <div>{`Please switch to a supported chainId. The supported Chain Ids are: ${supportedChains}`}</div>
