@@ -9,6 +9,7 @@ const Mint = () => {
   const [mintedBullets, setMintedBullets] = useState(0);
   const [mintedHopes, setMintedHopes] = useState(0);
   const [mintedFlashes, setMintedFlashes] = useState(0);
+  const [horse, setHorse] = useState();
 
   const { chainId: chainIdHex, isWeb3Enabled } = useMoralis();
   const chainId = parseInt(chainIdHex);
@@ -18,6 +19,7 @@ const Mint = () => {
   useEffect(() => {
     if (isWeb3Enabled) {
       nftsMinted();
+      getHorse();
     }
   }, [isWeb3Enabled]);
 
@@ -30,6 +32,7 @@ const Mint = () => {
         value: ethers.utils.parseEther("0.001"),
       });
       nftsMinted();
+      getHorse();
     } catch (error) {
       console.error(error);
     }
@@ -44,6 +47,7 @@ const Mint = () => {
         value: ethers.utils.parseEther("0.002"),
       });
       nftsMinted();
+      getHorse();
     } catch (error) {
       console.error(error);
     }
@@ -58,6 +62,7 @@ const Mint = () => {
         value: ethers.utils.parseEther("0.003"),
       });
       nftsMinted();
+      getHorse();
     } catch (error) {
       console.error(error);
     }
@@ -77,6 +82,15 @@ const Mint = () => {
     setMintedFlashes(flashSupply);
   };
 
+  const getHorse = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(stallionRunAddress, abi, provider);
+    const horse = await contract.ownedHorseName(
+      window.ethereum.selectedAddress
+    );
+    setHorse(horse);
+  };
+
   return (
     <div>
       <div className="mx-auto max-w-7xl bg-white px-4 mt-24 sm:px-6 lg:px-8">
@@ -87,8 +101,13 @@ const Mint = () => {
           To enter the race you have to mint a horse!
         </p>
       </div>
+      {horse != "none" ? (
+        <p className="text-center text-2xl font-bold text-black mt-10">
+          Your Horse: {horse}
+        </p>
+      ) : null}
       {stallionRunAddress ? (
-        <div className="mx-auto max-w-7xl grid grid-cols-3 gap-8 py-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl grid grid-cols-3 gap-8 pb-24 py-12 px-4 sm:px-6 lg:px-8">
           <div className={styles.card}>
             <p className={styles.cardMinted}>{mintedBullets}/3000</p>
             <h1 className={styles.cardTitle}>Bullet</h1>
